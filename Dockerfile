@@ -20,7 +20,7 @@
 #
 #################################################################################################################################
 #
-# Image path: relenteny/ansible:2.8.5
+# Image path:
 #
 #################################################################################################################################
 
@@ -29,10 +29,15 @@ FROM relenteny/python:3.7.4
 LABEL relenteny.repository.url=https://github.com/relenteny/ansible
 LABEL relenteny.ansible.version=2.8.5
 
-COPY build/home/pycontainer/requirements.txt /home/pycontainer/requirements.txt
+COPY build/home/alpine /home/alpine/
 
-RUN /home/pycontainer/bin/install-requirements.sh /home/pycontainer/requirements.txt && \
-    rm /home/pycontainer/requirements.txt
-    
-ENTRYPOINT ["ansible"]
+USER root
+RUN chown -R alpine.alpine /home/alpine
+
+USER alpine
+RUN /home/alpine/bin/install-requirements.sh /home/alpine/requirements.txt && \
+    rm /home/alpine/requirements.txt && \
+    chmod +x /home/alpine/bin/*.sh
+
+ENTRYPOINT ["/home/alpine/bin/startup.sh"]
 CMD []
