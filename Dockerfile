@@ -20,19 +20,19 @@
 #
 #################################################################################################################################
 #
-# Image path: relenteny/ansible:2.8.5
+# Image path: relenteny/ansible:2.9.12
 #
 #################################################################################################################################
 
-FROM relenteny/python:3.7.4
+FROM relenteny/python:3.8.5
 
 LABEL relenteny.repository.url=https://github.com/relenteny/ansible
-LABEL relenteny.ansible.version=2.8.5
+LABEL relenteny.ansible.version=2.9.12
 
 COPY build/home/alpine /home/alpine/
 
 USER root
-RUN chown -R alpine.alpine /home/alpine
+RUN chown -R alpine.alpine /home/alpine/*
 
 USER alpine
 RUN /home/alpine/bin/install-requirements.sh /home/alpine/requirements.txt && \
